@@ -1,0 +1,1 @@
+python3 ../02_main_linprobe.py --data_path ../datasets/ --batch_size 64 --epochs 100 --distributed --output_dir ../results/output_bmaeiter_linprobe50 --log_dir ../results/output_bmaeiter_linprobe50 --finetune ../results/output_bmaeiter_pretrain-50/checkpoint-50.pth

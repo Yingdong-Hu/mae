@@ -1,6 +1,6 @@
 # Bootstrapped MAE Documentation
 
-This is the repository containing the implementation of the Bootstrapped MAE algorithm for the coding assignment. If you want to reproduce the results shown in the report, please follow the instructions below.
+This is the repository containing the implementation of the Bootstrapped MAE algorithm for the coding assignment. Results (both checkpoints and tensorboard log outputs) from our runs are saved in the `results` folder. To view the tensorboard log outputs, just type `$ tensorboard --logdir /results` (or the full path to the results if this doesn't work) into the command line and click the link that is printed out. If you want to reproduce the results shown in the report, please follow the instructions below.
 
 ## Table of Contents
 
@@ -9,6 +9,7 @@ This is the repository containing the implementation of the Bootstrapped MAE alg
   - [Dependencies](#dependencies)
   - [Baseline MAE Algorithm](#baseline-mae-algorithm)
   - [Bootstrapped MAE Algorithm](#bootstrapped-mae-algorithm)
+  - [Bootstrapped MAE + EMA Algorithm](#bootstrapped-mae--ema-algorithm)
 
 ## Dependencies
 
@@ -40,7 +41,24 @@ where `your_directory_path` is the path of the directory containing all the resu
 
 ## Bootstrapped MAE Algorithm
 
-The steps to running the pretraining, fine-tuning, and linear-probing on the bootstrapped MAE algorithm is very similar to the baseline MAE algorithm. First change directory to the `bash_files` directory, and then run the following commands in the command line:
+To run the pretraining, fine-tuning, and linear-probing on the bootstrapped MAE algorithm (i.e. MAE-1, MAE-2, ... algorithm), first change directory to the `bash_files` directory, and then run the following commands in the command line:
+
+```
+$ chmod +x bmaeiter_train.sh bmaeiter_eval_finetune.sh bmaeiter_eval_linprobe.sh
+$ ./bmaeiter_train.sh
+$ ./bmaeiter_eval_finetune.sh
+$ ./bmaeiter_linear.sh
+```
+
+Similar to the baseline MAE algorithm, the results can be tracked real-time using tensorboard by running the following command:
+
+```
+tensorboard --logdir {your_directory_path}
+```
+
+## Bootstrapped MAE + EMA Algorithm
+
+The steps to running the pretraining, fine-tuning, and linear-probing on the bootstrapped MAE + EMA algorithm is very similar to the baseline MAE algorithm. First change directory to the `bash_files` directory, and then run the following commands in the command line:
 
 ```
 $ chmod +x Bmae_train.sh Bmae_eval_finetune.sh Bmae_eval_linear.sh

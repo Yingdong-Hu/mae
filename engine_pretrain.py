@@ -19,10 +19,12 @@ import torch.nn as nn
 import util.misc as misc
 import util.lr_sched as lr_sched
 
-
+# If reconstruction model is None, then it is just normal train one epoch
+# Otherwise it is train_one_epoch for bootstrapped MAE
 def train_one_epoch(model: torch.nn.Module,
                     data_loader: Iterable, optimizer: torch.optim.Optimizer,
                     device: torch.device, epoch: int, loss_scaler,
+                    rec_model=None,
                     log_writer=None,
                     args=None):
     model.train(True)
@@ -44,8 +46,18 @@ def train_one_epoch(model: torch.nn.Module,
             lr_sched.adjust_learning_rate(optimizer, data_iter_step / len(data_loader) + epoch, args)
 
         samples = samples.to(device, non_blocking=True)
+        
+        # If we are doing the bootstrapped MAE version, then we need to get a 
+        # reconstruction target from the previous iteration's model 
+        if rec_model != None:
+            rec_model.eval()
+            with torch.no_grad():
+                rec_target, _, _ = rec_model(samples)
+        else: 
+            rec_target = None
 
         with torch.cuda.amp.autocast():
+            model.rec_target = rec_target
             loss, _, _ = model(samples, mask_ratio=args.mask_ratio)
 
         loss_value = loss.item()
@@ -60,6 +72,7 @@ def train_one_epoch(model: torch.nn.Module,
         if (data_iter_step + 1) % accum_iter == 0:
             optimizer.zero_grad()
 
+        # Need to have this just in case we are running on cpu
         if device==torch.cuda:
             torch.cuda.synchronize()
 

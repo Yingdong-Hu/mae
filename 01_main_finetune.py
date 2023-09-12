@@ -111,7 +111,7 @@ def get_args_parser():
                         help='How to apply mixup/cutmix params. Per "batch", "pair", or "elem"')
 
     # * Finetuning params
-    parser.add_argument('--finetune', default='./output_pretrain/checkpoint-199.pth',
+    parser.add_argument('--finetune', default='./output_bmae_pretrain12/checkpoint-199.pth',
                         help='finetune from checkpoint')
     parser.add_argument('--global_pool', action='store_true')
     parser.set_defaults(global_pool=True)
@@ -124,9 +124,9 @@ def get_args_parser():
     parser.add_argument('--nb_classes', default=10, type=int,
                         help='number of the classification types')
 
-    parser.add_argument('--output_dir', default='../output_finetune_dir',
+    parser.add_argument('--output_dir', default='./output_finetune_bmae_dir',
                         help='path where to save, empty for no saving')
-    parser.add_argument('--log_dir', default='../output_finetune_dir',
+    parser.add_argument('--log_dir', default='./output_finetune_bmae_dir',
                         help='path where to tensorboard log')
     parser.add_argument('--device', default='cuda',
                         help='device to use for training / testing')

@@ -1,0 +1,1 @@
+python3 ../04_bmae_pretraining.py --data_path ../datasets/ --output_dir ../results/output_bmaeiter_pretrain --log_dir ../results/output_bmaeiter_pretrain 
